@@ -5,7 +5,7 @@ import asyncio
 import discord
 
 from chatting import Chatter
-from discord import Member, Channel, Message
+from discord import Member, Channel, Message, Game
 from discord.ext import commands
 from discord.ext.commands import Bot
 
@@ -34,7 +34,7 @@ class JenkiesBot(Bot):
         via the API.
         """
         self.chatter = Chatter()
-        self.change_status(game='Come Chat With Me!')
+        self.change_status(game=Game(name='Come Chat With Me!'))
 
     @asyncio.coroutine
     def on_message(self, message: Message):
