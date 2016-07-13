@@ -34,7 +34,7 @@ class JenkiesBot(Bot):
         via the API.
         """
         self.chatter = Chatter()
-        self.change_status(game=Game(name='Come Chat With Me!'))
+        yield from self.change_status(game=Game(name='Come Chat With Me!'))
 
     @asyncio.coroutine
     def on_message(self, message: Message):
