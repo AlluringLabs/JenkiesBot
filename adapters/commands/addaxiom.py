@@ -1,4 +1,4 @@
-from commandinterface import CommandInterface
+from .commandinterface import CommandInterface
 
 
 class AddAxiomCommand(CommandInterface):
