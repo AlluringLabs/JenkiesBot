@@ -1,4 +1,4 @@
-""" Describes how all adapters should work."""
+""" Handles describing how all adapters should work at a low level."""
 
 class AdapterMethodNotImplementedError(NotImplementedError):
     """ Top level error that should be implemented by other adapter not-implemented errors."""

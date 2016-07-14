@@ -1,7 +1,7 @@
 """ Lays out the structure for how Commands should be implemented."""
 
 from discord import Member, Channel
-from .. import AdapterMethodNotImplementedError
+from ..adapter import AdapterMethodNotImplementedError
 
 
 class CommandInterface:

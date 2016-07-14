@@ -1,6 +1,6 @@
 """ Module that implements the add_axiom command."""
 
-from . import CommandInterface
+from .commandinterface import CommandInterface
 
 
 class AddAxiomCommand(CommandInterface):
