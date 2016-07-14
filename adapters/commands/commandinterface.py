@@ -1,11 +1,10 @@
 from .. import AdapterMethodNotImplementedError
-from typing import List
 from discord import Member, Channel
 
 
 class CommandInterface:
 
-    def execute(self, command_parts: List[str], author: Member, channel: Channel):
+    def execute(self, command_parts: list, author: Member, channel: Channel):
         raise CommandMethodNotImplementedError()
 
 

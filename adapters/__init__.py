@@ -1,1 +1,1 @@
-from adapter import AdapterMethodNotImplementedError
+from .adapter import AdapterMethodNotImplementedError
