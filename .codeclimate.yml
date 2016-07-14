@@ -1,0 +1,15 @@
+engines:
+  pep8:
+    enabled: true
+
+ratings:
+  paths:
+    - "**.py"
+
+exclude_paths:
+  - "tests/"
+  - ".gitignore"
+  - ".pylintrc"
+  - ".travis.yml"
+  - "chat-storage.json"
+  - "corpa"
