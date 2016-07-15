@@ -1,12 +1,15 @@
 """ Module that currently holds the core logic behind JenkiesBot."""
+import re
 import asyncio
 
 from discord import Client, Member, Channel, Message, Game
-from .chatting import Chatter
+from .chatting import ChatterBotProxy
 
 
 class JenkiesBot(Client):
     """ The one and only, JenkiesBot!"""
+
+    COMMAND_PATTERN = '^(/\S*)\s(.*)'
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
@@ -27,16 +30,18 @@ class JenkiesBot(Client):
 
     def run_command(self, content: str, author: Member, channel: Channel):
         """ Currently handles figuring out which command needs to be ran."""
-        command_parts = list(map(lambda x: x.strip(), content.split('|')))
-        if command_parts[0] == '>add_axiom':
-            return self.add_axiom(command_parts[1:], author, channel)
+        command_regex = re.search(self.COMMAND_PATTERN, content)
+        command, command_params = command_regex.group(1), command_regex.group(2)
+        command_parts = list(map(lambda x: x.strip(), command_params.split('|')))
+        if command == '/add_axiom':
+            return self.add_axiom(command_parts, author, channel)
 
     @asyncio.coroutine
     def on_ready(self):
         """ Runs when the JenkiesBot successfully connects and logs in to Discord
         via the API.
         """
-        self.chatter = Chatter()
+        self.chatter = ChatterBotProxy()
         yield from self.change_status(game=Game(name='Come Chat With Me!'))
 
     @asyncio.coroutine
@@ -54,7 +59,7 @@ class JenkiesBot(Client):
             return
         # This is 100% temp until I can figure out why the command decorator is not
         # working.
-        if content[0] == '>':
+        if content[0] == '/':
             yield from self.run_command(content, author, channel)
         else:
             if channel.is_private:

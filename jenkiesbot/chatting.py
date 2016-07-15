@@ -5,8 +5,8 @@ from chatterbot.training.trainers import ChatterBotCorpusTrainer
 from .utils import update_json_file
 
 
-class Chatter:
-    """ Chatter is the core class involved with the integration with
+class ChatterBotProxy:
+    """ ChatterBotProxy is the core class involved with the integration with
     ChatterBot. It handles abstracting all interactions with ChatterBot.
     """
 
@@ -39,7 +39,7 @@ class Chatter:
                 statement
             ] + responses)
             return json_file_contents
-        update_json_file('../corpa/training-corpa.json', update_axiom_json)
+        update_json_file('corpa/training-corpa.json', update_axiom_json)
         # Retraining is required now!
         self.train_from_corpa()
 
