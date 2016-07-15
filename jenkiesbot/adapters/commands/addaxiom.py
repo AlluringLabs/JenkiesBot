@@ -1,8 +1,8 @@
 """ Module that implements the add_axiom command."""
 
-from .commandinterface import CommandInterface
+from .command import Command
 
 
-class AddAxiomCommand(CommandInterface):
+class AddAxiomCommand(Command):
     """ Class that implements the add_axiom command."""
     pass

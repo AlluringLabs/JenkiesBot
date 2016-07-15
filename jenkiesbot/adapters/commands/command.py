@@ -7,12 +7,13 @@ from ..adapter import AdapterMethodNotImplementedError
 class CommandInterface:
     """ Interface that describes which methods a command must implement."""
 
-    def __init__(self):
-        super().__init__()
-
     def execute(self, command_parts: list, author: Member, channel: Channel):
         """ Required method that is called when a command is executed."""
         raise CommandMethodNotImplementedError()
+
+
+class Command(CommandInterface):
+    pass
 
 
 class CommandMethodNotImplementedError(AdapterMethodNotImplementedError):
