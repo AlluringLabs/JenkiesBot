@@ -18,11 +18,12 @@ class TestAddAxiomCommand(TestCase):
         self.assertEqual(
             self.add_axiom_command.command_slug, 'add_axiom')
 
-    # def test_execute_command_exists(self):
-    #     # The Command parent object will throw an error if it's
-    #     # not correctly implemented so all we have to do is make
-    #     # a single call.
-    #     self.add_axiom_command.execute([], '', '')
+    @patch('jenkiesbot.adapters.commands.addaxiom.update_json_file')
+    def test_execute_command_exists(self, mock_update_json_method):
+        # The Command parent object will throw an error if it's
+        # not correctly implemented so all we have to do is make
+        # a single call.
+        self.add_axiom_command.execute([], '', '')
 
     @patch.object(AddAxiomCommand, '_update_axiom_json')
     @patch('jenkiesbot.adapters.commands.addaxiom.update_json_file')
