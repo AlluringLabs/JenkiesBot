@@ -11,7 +11,7 @@ class AddAxiomCommand(Command):
     def __init__(self):
         super().__init__(command_slug='add_axiom')
 
-    def _update_axiom_json(self, json_file_contents: dict) -> dict:
+    def _update_axiom_json(self, json_file_contents: dict, statement: str, responses: list) -> dict:
         """ Used as the call back for add_axiom()'s call to update_json_file.
         Describes how we should add a new axiom to our training corpa json
         file.

@@ -6,6 +6,7 @@ from jenkiesbot.adapters.commands import AddAxiomCommand, Command
 class TestAddAxiomCommand(TestCase):
 
     def setUp(self):
+        self.base_dict = {'axioms': []}
         self.add_axiom_command = AddAxiomCommand()
 
     def tearDown(self):
@@ -36,4 +37,20 @@ class TestAddAxiomCommand(TestCase):
         self.add_axiom_command.execute([], '', '')
         mock_update_json_file.assert_called_once_with(
             'corpa/training-corpa.json', mock_update_json_method)
+
+    def test_update_axiom_json_exists(self):
+        self.add_axiom_command._update_axiom_json(self.base_dict, '', [])
+
+    def test_update_axiom_json_appends_to_the_dicts_axioms_list(self):
+        statement = 'test statement'
+        response_one = 'response one'
+        response_two = 'response two'
+        responses = [response_one, response_two]
+        updated_dict = self.add_axiom_command._update_axiom_json(
+            self.base_dict, statement, responses)
+        self.assertEqual(updated_dict, {
+            'axioms': [
+                [statement, response_one, response_two]
+            ]
+        })
 
