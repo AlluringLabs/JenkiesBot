@@ -17,4 +17,9 @@ class Commands:
         for command in commands:
             self.add_command(command)
 
+    def execute_command(self, command_slug):
+        for command in self.commands:
+            if command.command_slug == command_slug:
+                return command.execute()
+
 
