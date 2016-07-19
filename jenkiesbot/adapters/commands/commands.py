@@ -1,6 +1,6 @@
 """ Implements an interface that we can use to work with commands."""
 
-from .command import CommandInterface
+from .command import Command
 
 
 class Commands:
@@ -8,9 +8,9 @@ class Commands:
     def __init__(self):
         self.commands = []
 
-    def add_command(self, command: CommandInterface):
-        if not isinstance(command, CommandInterface):
-            raise TypeError('A command must inherit from CommandInterface.')
+    def add_command(self, command: Command):
+        if not isinstance(command, Command):
+            raise TypeError('A command must inherit from Command.')
         self.commands.append(command)
 
     def add_commands(self, commands: list):
