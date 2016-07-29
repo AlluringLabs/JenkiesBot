@@ -22,4 +22,5 @@ class AddAxiomCommand(Command):
         return json_file_contents
 
     def execute(self, command_parts: list, author: Member, channel: Channel):
+        """ Implements the execution portion of the add_axiom command."""
         update_json_file('corpa/training-corpa.json', self._update_axiom_json)
