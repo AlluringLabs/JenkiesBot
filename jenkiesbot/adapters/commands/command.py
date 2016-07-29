@@ -9,7 +9,7 @@ class Command(Adapter):
 
     def __init__(self, command_slug=''):
         if not command_slug:
-            raise ValueError('A Command must specify a command_slug.')
+            raise ValueError('A Command must specify a command slug during instantiation.')
         self.command_slug = command_slug
 
     def execute(self, command_parts: list, author: Member, channel: Channel):

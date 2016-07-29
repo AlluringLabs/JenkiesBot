@@ -26,6 +26,11 @@ class CommandsTest(TestCase):
     def tearDown(self):
         self.commands = None
 
+    def test_that_we_can_override_command_prefix(self):
+        commands_with_prefix = Commands(command_prefix='>')
+        self.assertEqual(self.commands.command_prefix, '/')
+        self.assertEqual(commands_with_prefix.command_prefix, '>')
+
     def test_commands_list_inits_as_empty(self):
         self.assertEqual(self.commands.commands, [])
 
@@ -35,9 +40,18 @@ class CommandsTest(TestCase):
         self.assertEqual(len(self.commands.commands), 1)
         self.assertEqual(self.commands.commands[0], new_command)
 
+    def test_add_command_checks_to_make_sure_command_slugs_are_unique(self):
+        class NotUniqueTestCommand(TestCommand):
+            pass
+        test_command1 = TestCommand()
+        test_command2 = NotUniqueTestCommand()
+        self.commands.add_command(test_command1)
+        with self.assertRaises(ValueError):
+            self.commands.add_command(test_command2)
+
     def test_add_command_fails_if_command_isnt_a_command(self):
         self.not_a_real_command = []
-        with self.assertRaises(Exception):
+        with self.assertRaises(TypeError):
             self.commands.add_command(self.not_a_real_command)
 
     def test_add_commands_adds_commands_by_calling_add_command(self):
@@ -52,11 +66,11 @@ class CommandsTest(TestCase):
 
     def test_add_commands_adds_all_commands(self):
         command_1 = TestCommand()
-        command_2 = TestCommand()
-        command_3 = TestCommand()
-        new_commands = [command_1, command_2, command_3]
+        command_2 = AnotherTestCommand()
+        new_commands = [command_1, command_2]
         self.commands.add_commands(new_commands)
-        self.assertEqual(len(self.commands.commands), 3)
+        self.assertEqual(len(self.commands.commands), 2)
+        self.assertEqual(self.commands.commands, new_commands)
 
     def test_execute_command_executes_command_based_on_slug(self):
         command_1 = TestCommand()
