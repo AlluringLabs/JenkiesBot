@@ -1,4 +1,5 @@
 """ Implements a Class that allows JenkiesBot to easily interface with Commands."""
+import re
 
 from .command import Command
 
@@ -6,9 +7,19 @@ from .command import Command
 class Commands:
     """ Class that allows JenkiesBot to easily interface with Commands."""
 
+    COMMAND_PATTERN_REG = re.compile('^/(\S+)\s?(.*)?')
+
     def __init__(self, command_prefix='/'):
         self.commands = []
         self.command_prefix = command_prefix
+
+    def is_message_command(self, message_content: str) -> bool:
+        """ Checks to see if the message_content passed looks like an actual command.
+        A command should start with the command_prefix and then have no space followed
+        by a random string of characters."""
+        starts_with_command_prefix = message_content[0] == self.command_prefix
+        matches_command_pattern = self.COMMAND_PATTERN_REG.match(message_content)
+        return starts_with_command_prefix and matches_command_pattern
 
     def add_command(self, command: Command):
         """ Adds a command to the commands list, but only if the command inherits
@@ -28,10 +39,15 @@ class Commands:
         for command in commands:
             self.add_command(command)
 
-    def execute_command(self, command_slug):
-        """ Handles executing the correct command(s) based on the command_slug."""
+    def execute_command(self, command_string: str) -> any:
+        """ Handles executing the correct command(s) based on the supplied
+        command_string."""
+        command_parts = self.COMMAND_PATTERN_REG.match(command_string)
+        command_slug = command_parts.group(1)
+        command_params = command_parts.group(2).split(' ')
         for command in self.commands:
             if command.command_slug == command_slug:
-                return command.execute()
+                return command.execute(command_params)
+
 
 
