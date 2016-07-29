@@ -1,23 +1,25 @@
 """ Lays out the structure for how Commands should be implemented."""
 
 from discord import Member, Channel
-from ..adapter import AdapterMethodNotImplementedError
+from ..adapter import Adapter
 
 
-class CommandInterface:
+class Command(Adapter):
     """ Interface that describes which methods a command must implement."""
 
-    def __init__(self):
-        super().__init__()
+    def __init__(self, command_slug=''):
+        if not command_slug:
+            raise ValueError('A Command must specify a command slug during instantiation.')
+        self.command_slug = command_slug
 
     def execute(self, command_parts: list, author: Member, channel: Channel):
         """ Required method that is called when a command is executed."""
         raise CommandMethodNotImplementedError()
 
 
-class CommandMethodNotImplementedError(AdapterMethodNotImplementedError):
+class CommandMethodNotImplementedError(NotImplementedError):
     """ This error is raised when a command does not implement the
-    methods described in the CommandInterface.
+    methods described in the Command.
     """
 
     def __init__(self, message="A command method was not implemented."):

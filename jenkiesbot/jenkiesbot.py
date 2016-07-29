@@ -3,6 +3,7 @@ import re
 import asyncio
 
 from discord import Client, Member, Channel, Message, Game
+from .adapters.commands import Commands, AddAxiomCommand
 from .chatting import ChatterBotProxy
 
 
@@ -15,26 +16,15 @@ class JenkiesBot(Client):
         super().__init__(*args, **kwargs)
         # We will set this in on_ready()
         self.chatter = None
+        # Temporarily adding the AddAxiom command; user's will decide commands
+        # on their own.
+        self.commands = Commands()
+        self.commands.add_command(AddAxiomCommand())
 
     @staticmethod
     def can_member_chat(member: Member, channel: Channel):
         """ Checks to see if the member can chat in the channel."""
         return channel.permissions_for(member).send_messages
-
-    def add_axiom(self, command_parts: list, author: Member, channel: Channel):
-        """ Temporarily implements the add_axiom command. See adapters.commands.addaxiom."""
-        question, responses = command_parts[0], command_parts[1:]
-        self.chatter.add_axiom(question, responses)
-        confirmation_msg = 'Thanks for adding the axiom, {0.mention}.'.format(author)
-        return self.send_message(channel, confirmation_msg)
-
-    def run_command(self, content: str, author: Member, channel: Channel):
-        """ Currently handles figuring out which command needs to be ran."""
-        command_regex = re.search(self.COMMAND_PATTERN, content)
-        command, command_params = command_regex.group(1), command_regex.group(2)
-        command_parts = list(map(lambda x: x.strip(), command_params.split('|')))
-        if command == '/add_axiom':
-            return self.add_axiom(command_parts, author, channel)
 
     @asyncio.coroutine
     def on_ready(self):
@@ -57,10 +47,8 @@ class JenkiesBot(Client):
         author = message.author
         if author == self.user:
             return
-        # This is 100% temp until I can figure out why the command decorator is not
-        # working.
-        if content[0] == '/':
-            yield from self.run_command(content, author, channel)
+        if self.commands.is_message_command(content):
+            yield from self.commands.execute_command(content)
         else:
             if channel.is_private:
                 reply = '{0.mention}: {1}'.format(
