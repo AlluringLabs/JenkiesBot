@@ -14,7 +14,8 @@ class Command(Adapter):
 
     def execute(self, command_parts: list, author: Member, channel: Channel):
         """ Required method that is called when a command is executed."""
-        raise CommandMethodNotImplementedError()
+        raise CommandMethodNotImplementedError(
+            "Commands must implement the execute method.")
 
 
 class CommandMethodNotImplementedError(NotImplementedError):

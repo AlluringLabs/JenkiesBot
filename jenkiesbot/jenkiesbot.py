@@ -10,8 +10,6 @@ from .chatting import ChatterBotProxy
 class JenkiesBot(Client):
     """ The one and only, JenkiesBot!"""
 
-    COMMAND_PATTERN = '^(/\S*)\s(.*)'
-
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
         # We will set this in on_ready()
