@@ -13,7 +13,7 @@ class TestAddAxiomCommand(TestCase):
         self.add_axiom_command = None
 
     def test_add_axiom_command_extends_command_interface(self):
-        self.assertTrue(issubclass(AddAxiomCommand, Command))
+        self.assertIsInstance(self.add_axiom_command, Command)
 
     def test_add_axiom_command_slug_is_add_axiom(self):
         self.assertEqual(
