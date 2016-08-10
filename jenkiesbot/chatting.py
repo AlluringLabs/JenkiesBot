@@ -28,6 +28,7 @@ class ChatterBotProxy:
         self.chat_bot.train('chatterbot.corpus.english')
         self.chat_bot.train('.corpa')
 
-    def get_reply(self, message):
-        """ Abstracts away the to our bots method for retrieving a repsonse."""
+    def get_reply(self, message: str):
+        """ Takes the user's message and acts as a proxy for retrieving
+        JenkiesBot's response."""
         return self.chat_bot.get_response(message)

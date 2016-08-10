@@ -30,7 +30,7 @@ class JenkiesBot(Client):
         via the API.
         """
         self.chatter = ChatterBotProxy()
-        yield from self.change_status(game=Game(name='Come Chat With Me!'))
+        yield from self.change_status(game=Game(name="Come Chat With Me!"))
 
     @asyncio.coroutine
     def on_message(self, message: Message):
@@ -49,12 +49,12 @@ class JenkiesBot(Client):
             yield from self.commands.execute_command(content)
         else:
             if channel.is_private:
-                reply = '{0.mention}: {1}'.format(
+                reply = "{0.mention}: {1}".format(
                     author, self.chatter.get_reply(content))
                 yield from self.send_message(author, reply)
             elif self.can_member_chat(channel.server.me, channel):
                 if channel.server.me in message.mentions:
-                    if 'chat' in content:
+                    if "chat" in content:
                         yield from self.send_message(channel, "Sure! I'm messaging you now. :)")
                         yield from self.send_message(
                             author, "Hi there, {0.mention}! What's on your mind today?".format(
@@ -66,5 +66,6 @@ class JenkiesBot(Client):
         server_joined = member.server
         for channel in server_joined.channels:
             if channel.is_default:
-                msg = 'Please welcome our newest member, {0.mention}, to the server!'.format(member)
+                msg = "Please welcome our newest member, " \
+                      "{0.mention}, to the server!".format(member)
                 yield from self.send_message(channel, msg)

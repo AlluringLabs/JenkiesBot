@@ -6,6 +6,7 @@ class Adapter:
     def set_context(self, ctx: dict):
         """ Sets an adapter's context."""
         self.context = ctx
+        return self
 
     def get_context(self):
         """ Retrieves the adapter's context."""

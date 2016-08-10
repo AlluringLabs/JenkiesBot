@@ -7,9 +7,9 @@ from ..adapter import Adapter
 class Command(Adapter):
     """ Interface that describes which methods a command must implement."""
 
-    def __init__(self, command_slug=''):
+    def __init__(self, command_slug: str=""):
         if not command_slug:
-            raise ValueError('A Command must specify a command slug during instantiation.')
+            raise ValueError("A Command must specify a command slug during instantiation.")
         self.command_slug = command_slug
 
     def execute(self, command_parts: list, author: Member, channel: Channel):
