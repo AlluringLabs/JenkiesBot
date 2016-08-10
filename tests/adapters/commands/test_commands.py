@@ -32,12 +32,12 @@ class CommandsTest(TestCase):
         self.assertEqual(commands_with_prefix.command_prefix, '>')
 
     def test_is_message_command_returns_true_if_message_looks_like_a_command(self):
-        self.assertFalse(self.commands.is_message_command('some random text'))
+        self.assertFalse(self.commands.is_message_command("some random text"))
         self.assertFalse(self.commands.is_message_command(
             "/ I'm still not a command because of the space"))
-        self.assertTrue(self.commands.is_message_command('/some_command'))
+        self.assertTrue(self.commands.is_message_command("/some_command"))
         self.assertTrue(self.commands.is_message_command(
-            '/some_command with params'))
+            "/some_command with params"))
 
     def test_commands_list_inits_as_empty(self):
         self.assertEqual(self.commands.commands, [])
@@ -86,22 +86,22 @@ class CommandsTest(TestCase):
         # We will mock the execute that we expect to be called.
         with patch.object(TestCommand, 'execute') as mock_execute:
             self.commands.commands = [command_1, command_2]
-            self.commands.execute_command('/test_command')
+            self.commands.execute_command("/test_command")
         self.assertTrue(mock_execute.called)
 
     def test_execute_command_passes_command_params_if_they_exist(self):
         command = TestCommand()
         with patch.object(TestCommand, 'execute') as mock_execute:
             self.commands.commands = [command]
-            self.commands.execute_command('/test_command param1 param2')
+            self.commands.execute_command("/test_command param1 param2")
         self.assertTrue(mock_execute.called)
         self.assertEqual(mock_execute.call_args, ((['param1', 'param2'],),))
 
     def test_execute_command_returns_executed_commands_return_value(self):
         command = TestCommand()
-        test_return_val = 'test'
-        with patch.object(TestCommand, 'execute', return_value=test_return_val) as mock_execute:
+        return_val = "test"
+        with patch.object(TestCommand, 'execute', return_value=return_val) as mock_execute:
             self.commands.commands = [command]
-            return_val = self.commands.execute_command('/test_command')
+            return_val = self.commands.execute_command("/test_command")
         self.assertTrue(mock_execute.called)
-        self.assertEqual(return_val, test_return_val)
+        self.assertEqual(return_val, return_val)
